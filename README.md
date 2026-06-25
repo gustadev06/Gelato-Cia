@@ -3,7 +3,9 @@
 API REST do projeto **Gelato & Cia**, construída com **JSON Server**. Responsável por fornecer e armazenar os dados da sorveteria (sabores, pedidos, opcionais e status), consumidos pelo front-end em Vue.js.
 
 🔗 **API em produção:** https://api-sorveteria-ml4z.onrender.com
+
 🖥️ **Front-end (Vue):** https://gelato-cia.vercel.app
+
 📦 **Repositório do front:** https://github.com/gustadev06/Gelato-Cia
 
 ---
