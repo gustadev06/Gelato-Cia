@@ -1,99 +1,114 @@
-# 🍦 API Sorveteria — Gelato & Cia
+# 🍦 Gelato & Cia
 
-API REST do projeto **Gelato & Cia**, construída com **JSON Server**. Responsável por fornecer e armazenar os dados da sorveteria (sabores, pedidos, opcionais e status), consumidos pelo front-end em Vue.js.
+Aplicação web de uma **sorveteria** desenvolvida em **Vue.js**, onde o cliente pode
+visualizar os sabores disponíveis, montar e enviar pedidos, e acompanhar a lista de
+pedidos com seus respectivos status. Os dados são consumidos de uma **API REST**
+(JSON Server) hospedada na nuvem.
 
-🔗 **API em produção:** https://api-sorveteria-ml4z.onrender.com
+🔗 **Acesse a aplicação:** https://gelato-cia.vercel.app
+🍨 **API (back-end):** https://api-sorveteria-ml4z.onrender.com
+📦 **Repositório da API:** https://github.com/gustadev06/api-sorveteria
 
-🖥️ **Front-end (Vue):** https://gelato-cia.vercel.app
+---
 
-📦 **Repositório do front:** https://github.com/gustadev06/Gelato-Cia
+## ✨ Funcionalidades
+
+- 🍦 **Menu de sabores** — listagem dos sorvetes com imagem, preço e descrição
+- 🧾 **Montagem de pedido** — escolha de sabor, quantidade (bolas) e opcionais
+- ✅ **Validação de formulário** — com alertas visuais para campos obrigatórios
+- 📋 **Lista de pedidos** — atualizada em tempo real, com alteração de status
+- 🗑️ **Remoção de pedidos** — exclusão direto pela lista
 
 ---
 
 ## 🛠️ Tecnologias
 
-- [Node.js](https://nodejs.org/)
-- [JSON Server](https://github.com/typicode/json-server)
-- Deploy: [Render](https://render.com/)
+- [Vue.js](https://vuejs.org/) (Vue CLI)
+- [Vue Router](https://router.vuejs.org/)
+- HTML5 / CSS3
+- Deploy: [Vercel](https://vercel.com/)
 
 ---
 
 ## 📂 Estrutura do projeto
 
 ```
-api-sorveteria/
-├── db.json          # "Banco de dados" com sabores, pedidos, opcionais, etc.
-├── index.js         # Servidor JSON Server configurado para produção
-├── package.json
-└── .gitignore
-```
-
-O `index.js` configura o JSON Server para usar a porta definida pelo ambiente
-(`process.env.PORT`), o que é necessário para o deploy no Render:
-
-```js
-const jsonServer = require('json-server');
-const server = jsonServer.create();
-const router = jsonServer.router('db.json');
-const middlewares = jsonServer.defaults();
-
-const port = process.env.PORT || 3000;
-
-server.use(middlewares);
-server.use(router);
-
-server.listen(port, () => {
-  console.log(`JSON Server rodando na porta ${port}`);
-});
+Gelato-Cia/
+├── public/
+├── src/
+│   ├── assets/                 # Imagens e logo
+│   ├── components/
+│   │   ├── BannerComponent.vue
+│   │   ├── ListaPedidoComponent.vue
+│   │   ├── NavBarComponent.vue
+│   │   └── PedidoComponent.vue
+│   ├── views/
+│   │   ├── ConfiguracaoPedidoView.vue
+│   │   ├── MenuView.vue
+│   │   └── PedidosView.vue
+│   ├── router/
+│   ├── App.vue
+│   └── main.js
+├── .env.development            # URL da API em ambiente local
+├── .env.production             # URL da API em produção (Render)
+└── package.json
 ```
 
 ---
 
-## 🔌 Endpoints principais
+## 🔧 Configuração da API (variável de ambiente)
 
-> A lista completa de recursos é definida pelas chaves do arquivo `db.json`.
-> Os principais utilizados pelo front são:
+A URL da API é definida pela variável `VUE_APP_API_BASE_URL`, que muda
+conforme o ambiente:
 
-| Método | Rota        | Descrição                          |
-|--------|-------------|------------------------------------|
-| GET    | `/menu`     | Lista os sabores de sorvete        |
-| GET    | `/pedidos`  | Lista os pedidos realizados        |
-| POST   | `/pedidos`  | Cria um novo pedido                |
-| PATCH  | `/pedidos/:id` | Atualiza o status de um pedido  |
-| DELETE | `/pedidos/:id` | Remove um pedido                |
+| Arquivo            | Ambiente     | Valor                                              |
+|--------------------|--------------|----------------------------------------------------|
+| `.env.development` | Local        | `http://localhost:3000`                            |
+| `.env.production`  | Produção     | `https://api-sorveteria-ml4z.onrender.com`         |
 
-**Exemplo:** `GET https://api-sorveteria-ml4z.onrender.com/menu`
+Dessa forma, ao rodar localmente o app usa o JSON Server da sua máquina, e ao
+ser publicado usa a API hospedada no Render — **sem alterar nenhuma linha de código**.
 
 ---
 
 ## 🚀 Como rodar localmente
 
-Pré-requisito: ter o [Node.js](https://nodejs.org/) instalado.
+Pré-requisito: ter o [Node.js](https://nodejs.org/) instalado e a
+[API](https://github.com/gustadev06/api-sorveteria) rodando em `http://localhost:3000`.
 
 ```bash
 # 1. Clonar o repositório
-git clone https://github.com/gustadev06/api-sorveteria.git
+git clone https://github.com/gustadev06/Gelato-Cia.git
 
 # 2. Entrar na pasta
-cd api-sorveteria
+cd Gelato-Cia
 
 # 3. Instalar as dependências
 npm install
 
-# 4. Iniciar o servidor
-node index.js
+# 4. Rodar em modo de desenvolvimento
+npm run serve
 ```
 
-A API ficará disponível em `http://localhost:3000`.
+A aplicação ficará disponível em `http://localhost:8080`.
+
+### Gerar build de produção
+
+```bash
+npm run build
+```
+
+Os arquivos otimizados serão gerados na pasta `dist/`.
 
 ---
 
-## ⚠️ Observação sobre o plano gratuito (Render)
+## ☁️ Deploy
 
-O serviço está hospedado no plano **Free** do Render. Por isso, após um período
-de inatividade, a instância "hiberna" e a **primeira requisição pode levar até
-~50 segundos** para responder (o servidor precisa "acordar"). As requisições
-seguintes funcionam normalmente.
+- **Front-end:** publicado na **Vercel**, com deploy automático a cada `push` na branch `main`.
+- **Back-end:** publicado no **Render** (JSON Server).
+
+> ⚠️ A API está no plano gratuito do Render. A **primeira requisição** após um
+> período de inatividade pode levar até ~50 segundos (o servidor precisa "acordar").
 
 ---
 
