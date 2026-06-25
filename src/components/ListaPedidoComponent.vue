@@ -5,7 +5,7 @@
         <div id="pedidos-tabela-cabecalho">
           <div id="ordem-id">#ID</div>
           <div>Nome</div>
-          <div>Hamburguer</div>
+          <div>Sorvete</div>
           <div>Ponto</div>
           <div>Opcionais</div>
           <div>Status</div>
